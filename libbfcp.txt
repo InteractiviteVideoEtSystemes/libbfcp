@@ -1,0 +1,68 @@
+/*!
+ *
+ * \mainpage libbfcp
+ * \brief Documentation of IVES libbfcp
+ * \section section_somm  Summary
+ * This library is on partial iplementation of RFC4582 based on libfcp http://sourceforge.net/projects/libbfcp/files/libbfcp/bfcp-06/
+ *
+ * You can use this library for easy screen sharing over BFCP . 
+ * Supported BFCP primitive :
+ *
+ * hello 
+ *
+ * helloAck 
+ * 
+ * floorRequest
+ *
+ * floorRelease 
+ *
+ * floorStatus
+ * 
+ * \subsection subsection_server_API server  API
+ * \li BFCP Floor control server class .  \ref BFCP_Server 
+ * \li Create  a BFCP server  . \ref BFCP_Server::BFCP_Server 
+ *
+ * \li Start TCP thread server and waiting connection. \ref BFCP_Server::OpenTcpConnection 
+ *
+ * \li Close all connections and stop  TCP thread server. \ref BFCP_Server::CloseTcpConnection 
+ *
+ * \li Add user on Floor Control Server. \ref BFCP_Server::AddUser  
+ *
+ * \li Remove user on Floor Control Server .  \ref BFCP_Server::RemoveUserInConf  
+ *
+ * \li Check if user id aldready add in Floor Control Server .  \ref BFCP_Server::isUserInConf
+ *
+ * \li  Received connections events and BFCP request of participants. \ref BFCP_Server::ServerEvent::OnBfcpServerEvent 
+ *
+ * \li  Get conference ID manag by this server  \ref BFCP_Server::GetConfID 
+ *
+ * \li  Get floor ID manag by this server  \ref BFCP_Server::GetFloorID 
+ *
+ * \li Dump state of floor control server . \ref BFCP_Server::DumpServer
+ *
+ * \li Send a Floor Request Respons. \ref BFCP_Server::FloorRequestRespons
+ *
+ * \li Send a Floor Status. \ref BFCP_Server::SendFloorStatus
+ *
+ * \li return the current state of FCS  \ref BFCP_Server::GetFloorState
+ *
+ * \subsection subsection_participant_API participant  API
+ * \li BFCP participant class .  \ref BFCP_Participant 
+ *
+ * \section section_samples Samples of BFCP participant and Floor control server
+ * \subsection subsection_filesSamples Files samples
+ *        \li Sample of BFCP participant . \ref sampleClient
+ *        \li Sample of BFCP floor control server.  \ref sampleServer 
+ *
+ *
+ * \subsection section_FCS Floor Control Server step by step 
+ *        \li  Start TCP thread server and waiting connection.  \ref sampleServer::StartServer 
+ *        \li  Add user on Floor Control Server. \ref sampleServer::AddUserIDinConf
+ *        \li  Remove user on Floor Control Server. \ref sampleServer::RemoveUserIDinConf 
+ *        \li  Received connections events and BFCP request of participants. \ref sampleServer::OnBfcpServerEvent 
+ *        \li  Stop TCP thread server, close all actives connections and destroy instance. \ref sampleServer::StopServer 
+ *
+ */
+ 
+ 
+ 

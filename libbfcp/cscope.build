@@ -1,0 +1,19 @@
+#/usr/bin/ksh
+#set -x
+SRCDIRS="./ /usr/local/src/gnash-0.8.2"
+
+#sources
+
+find $SRCDIRS -name "*.[csh]" -print > cscope.files
+find $SRCDIRS -name "*.hpp" -print >>cscope.files
+find $SRCDIRS -name "*.cpp" -print >>cscope.files
+find $SRCDIRS -name "*.i" -print  >>cscope.files
+find $SRCDIRS -name "*.java" -print  >>cscope.files
+find $SRCDIRS -name "Make*" -print  >>cscope.files
+#makefiles et scripts
+#find $SRCDIRS -print | grep -i mk   >>cscope.files
+#find $SRCDIRS -print | grep -i make >>cscope.files
+
+
+cscope -b
+
