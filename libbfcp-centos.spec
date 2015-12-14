@@ -7,6 +7,7 @@ Group:     Library/Communication
 License:   GPL V2 
 URL:       https://github.com/neutrino38/libbfcp
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArchitectures: i386, i586, x86_64
 
 %description
 An open source BFCP (Binary Floor Control Protocol, RFC4582) library written in C
