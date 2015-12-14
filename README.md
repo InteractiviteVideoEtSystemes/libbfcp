@@ -10,24 +10,24 @@ by Lorenzo Miniero (see Confiance open source project)
 
 The instructions below were tested on CentOS 6 64 bits.
 
-1. Install prerequistes
+1- Install prerequistes
 
-# yum install gcc-c++, make, rpm-build
+  # yum install gcc-c++, make, rpm-build
 
 
-2. Produce the RPM package
+2- Produce the RPM package
 
 Do not compile as root but use a normal linux user
 
-$ git clone http://github.com/neutrino38/libbfcp
-$ cd libbfcp
-$ ./install.ksh rpm nosign
+   $ git clone http://github.com/neutrino38/libbfcp  
+   $ cd libbfcp
+   $ ./install.ksh rpm nosign
 
-3. Install the RPM package
+3- Install the RPM package
 
-$ su
-Password: xxxxx
-# rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
+  $ su
+  Password: xxxxx
+  # rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
 
 Libraries are compiled in both debug and release mode. They are located in
 
