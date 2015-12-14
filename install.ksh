@@ -3,39 +3,6 @@
 #Nom du paquetage 
 PROJET=libbfcp
 
-
-#Preparation du fichier spec de packaging rpm
-function prepare_spec
-{
-    #Architecture
-    SRVARCH=`uname -i`
-    #Check Fedora
-    rpm -q fedora-release > /dev/null
-    fcres=$?
-    #Check CentOS
-    rpm -q centos-release > /dev/null
-    cosres=$?
-    #Fedora Core Version
-    if [ ${fcres} -eq 0 ]
-       then
-       FCV=`rpm -q fedora-release | sed s/fedora-release-// | sed s/-.*//`
-       sed s/ives_distrib/ives.fc${FCV}/g ${PROJET}.spec.ives > ${PROJET}.spec.tmp
-       sed s/ives_archi/${SRVARCH}/g ${PROJET}.spec.tmp > ${PROJET}.spec
-        rm ${PROJET}.spec.tmp
-    #CentOS Version
-    elif [ ${cosres} -eq 0 ]
-       then
-       COSV=`rpm -q centos-release | sed s/centos-release-// | sed s/-.*//`
-       sed s/ives_distrib/ives.el${COSV}/g ${PROJET}.spec.ives > ${PROJET}.spec.tmp
-       sed s/ives_archi/${SRVARCH}/g ${PROJET}.spec.tmp > ${PROJET}.spec
-	rm ${PROJET}.spec.tmp
-    else
-       echo "Erreur: On n'a pas trouve de distribution Fedora, ou CentOS !"
-       exit
-    fi
-}
-
-
 #Creation de l'environnement de packaging rpm
 function create_rpm
 {
@@ -49,6 +16,9 @@ function create_rpm
     echo "%_gpg_name IVeSkey" >> ~/.rpmmacros
     echo "%_gpg_path" $PWD"/gnupg" >> ~/.rpmmacros
     echo "%vendor IVeS" >> ~/.rpmmacros
+	
+	make clean
+	
     #Import de la clef gpg IVeS
     if [[ -z $1 || $1 -ne nosign ]]
     then
@@ -66,14 +36,14 @@ function create_rpm
     mkdir -p rpmbuild/RPMS/x86_64
     #Recuperation de la description du package 
     cd ./rpmbuild/SPECS/
-    cp ../../${PROJET}.spec ${PROJET}.spec
+    cp ../../libbfcp-centos.spec .
     cd ../../
     #Cree le package
-   if [[ -z $1 || $1 -ne nosign ]]
+	if [[ -z $1 || $1 -ne nosign ]]
     then
-                rpmbuild -bb --sign $PWD/rpmbuild/SPECS/${PROJET}.spec
-   else
-             rpmbuild -bb $PWD/rpmbuild/SPECS/${PROJET}.spec
+        rpmbuild -bb --sign $PWD/rpmbuild/SPECS/libbfcp-centos.spec
+	else
+        rpmbuild -bb $PWD/rpmbuild/SPECS/libbfcp-centos.spec
     fi
     if [ $? == 0 ]
     then
@@ -89,7 +59,8 @@ function clean
 {
   	# On efface les liens ainsi que le package precedemment cr��
   	echo Effacement des fichiers et liens gnupg rpmbuild ${PROJET}.rpm ${TEMPDIR}/${PROJET}
-  	rm -rf gnupg rpmbuild ${PROJET}.rpm ${TEMPDIR}/${PROJET}
+  	rm -rf gnupg rpmbuild  ${TEMPDIR}/${PROJET}
+	make clean
 }
 
 case $1 in
@@ -102,11 +73,10 @@ case $1 in
   		copy_rpmInstall $2;;
   	"rpm")
   		echo "Creation du rpm"
-                prepare_spec
   		create_rpm $2 ;;
   	*)
   		echo "usage: install.ksh [options]" 
   		echo "options :"
-  		echo "  rpm		Generation d'un package rpm"
-  		echo "  clean		Nettoie tous les fichiers cree par le present script, liens, tar.gz et rpm";;
+  		echo "  rpm		Create RPM package"
+  		echo "  clean	Remove temporary compilation files as well as generated libraries";;
 esac

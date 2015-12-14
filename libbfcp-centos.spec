@@ -1,34 +1,38 @@
 Name:      libbfcp
 Version:   5.5.2
-#Ne pas enlever le .ives a la fin de la release !
-#Cela est utilise par les scripts de recherche de package.
-Release:   1.ives
-Summary:   [IVeS] libbfcp.
-Vendor:   IVeS
-Group:     Applications/Internet
-License: GPL 
-URL:       http://www.ives.fr
+Release:   1.ives%{?dist}
+Summary:   libbfcp.
+Vendor:    IVeS
+Group:     Library/Communication
+License:   GPL V2 
+URL:       https://github.com/neutrino38/libbfcp
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Implementation of client and server RFC4582 for linux and windows
-  
+An open source BFCP (Binary Floor Control Protocol, RFC4582) library written in C
+and C++. Repackaged and modified for IVeS solutions. Fork from the libbfcp written
+by Lorenzo Miniero (see Confiance open source project)
+
 %clean
 echo "############################# Clean"
 echo Clean du repertoire $RPM_BUILD_ROOT
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "$RPM_BUILD_ROOT"
 
 %prep
-svn export --force http://svn.ives.fr/svn-econf-web/trunk/SDK_src/eConf_v5.1/ftmodules/ftmmisc/libbfcp
+cd %_topdir
+cd ..
+
 
 %build
 echo "Build"
-cd %name
+cd %_topdir
+cd ..
 make LIBSUBDIR=%{_lib}
 make DEBUG=yes LIBSUBDIR=%{_lib}
 
 %install
-cd %name
+cd %_topdir
+cd ..
 make install PREFIXE=$RPM_BUILD_ROOT/opt/ives LIBSUBDIR=%{_lib}
 make install DEBUG=yes PREFIXE=$RPM_BUILD_ROOT/opt/ives LIBSUBDIR=%{_lib}
 
@@ -48,5 +52,3 @@ make install DEBUG=yes PREFIXE=$RPM_BUILD_ROOT/opt/ives LIBSUBDIR=%{_lib}
 - implementation of BFCP over UDP 
 * Mon Jan 20 2014 Philippe Verney <philippe.verney@ives.fr>
 - libbfcp for linux and windows .
-
-
