@@ -19,7 +19,7 @@ The instructions below were tested on CentOS 6 64 bits.
 
 Do not compile as root but use a normal linux user
 
-   $ git clone http://github.com/neutrino38/libbfcp  
+   $ git clone https://github.com/InteractiviteVideoEtSystemes/libbfcp.git
    $ cd libbfcp
    $ ./install.ksh rpm nosign
 
