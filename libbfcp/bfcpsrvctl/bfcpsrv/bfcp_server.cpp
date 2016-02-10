@@ -2733,7 +2733,7 @@ int BFCP_Server::bfcp_FloorRelease_server(st_bfcp_server *server, UINT32 confere
 	   
 	case -3:
 	    error = BFCP_USER_DOES_NOT_EXIST;
-	    sprintf(errortext, "User %d does not exist in Conference %d", newnode->userID, conferenceID);
+	    sprintf(errortext, "User %d does not exist in Conference %d", userID, conferenceID);
 	    break;
 	    
 	case -4:
@@ -2914,7 +2914,7 @@ int BFCP_Server::bfcp_ChairAction_server(st_bfcp_server *server, UINT32 conferen
     /* Check if this conference exists */
     if(server->list_conferences[i].conferenceID != conferenceID) {
         sprintf(errortext, "Conference %d does not exist", conferenceID);
-        bfcp_error_code(conferenceID, newnode->userID, TransactionID, BFCP_CONFERENCE_DOES_NOT_EXIST, errortext, NULL, sockfd, y, transport);
+        bfcp_error_code(conferenceID, userID, TransactionID, BFCP_CONFERENCE_DOES_NOT_EXIST, errortext, NULL, sockfd, y, transport);
         bfcp_mutex_unlock(count_mutex);
         return -1;
     }
