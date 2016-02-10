@@ -545,11 +545,20 @@ void BFCPConnection::disconnect()
                 BFCP_SLEEP(waitRange);
                 count -= waitRange ;
             }
+
             //Wait for server thread to close
 	    Log(INF,"BFCP TCP disconnect role[%s] wait end of server [0x%p]",m_eRole == BFCPConnectionRole::PASSIVE?"server":"client",m_thread);
-            if ( m_thread ) {
+	    if ( m_timer_thread )
+	    {
+		pthread_cond_signal(&m_timer_cond);
+		pthread_join(m_timer_thread, NULL);
+	    }
+	    
+            if ( m_thread ) 
+	    {
 #ifndef WIN32
                 pthread_join(m_thread,NULL);
+		
                 Log(INF, "BFCP TCP disconnect role[%s] success",m_eRole == BFCPConnectionRole::PASSIVE?"server":"client");
 #else
                 if ( m_bConnected || m_isStarted )
