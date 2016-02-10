@@ -192,11 +192,13 @@ void BFCPConnection::addSession(const std::string& sessionId)
 }
 
 void BFCPConnection::removeSession() {
-    if ( m_bConnected || !m_bClose || m_isStarted) {
-        bfcp_mutex_lock(m_SessionMutex);
-        disconnect();
-        bfcp_mutex_unlock(m_SessionMutex);
+    if ( m_bConnected || !m_bClose || m_isStarted)
+    {
+        //bfcp_mutex_lock(m_SessionMutex);
+        //bfcp_mutex_unlock(m_SessionMutex);
     }
+
+    disconnect();
 }
 
 
