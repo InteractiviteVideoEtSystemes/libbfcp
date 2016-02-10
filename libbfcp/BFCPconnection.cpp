@@ -1115,6 +1115,7 @@ void BFCPConnection::RunLoop()
 		/*  Now process data on all connected clients */
 		bfcp_mutex_lock(m_mutConnect);
 		s = INVALID_SOCKET;
+		
 		for (it=m_ClientSocket.begin(); it != m_ClientSocket.end() && !m_bClose; it++) 
 		{
 		    s = it->first;
@@ -1130,9 +1131,8 @@ void BFCPConnection::RunLoop()
 		    /* UDP: cleanup expired BFCP answer (retransmission handling) */
 		    if ( it->second.CheckExpiredAnswers(this) < 0)
 		    {
-			if ( !m_bClose ) OnBFCPDisconnected(s);
-			
 			disconnect = true;			    
+			break;
 		    }
 		    
 		    /* If no data is ready, we are finised with this client */
@@ -1162,8 +1162,8 @@ void BFCPConnection::RunLoop()
 				    Log(INF, "BFCPConnection: received a GoodByeAck from %s:%d - we're on UDP - this is a disconnect !",
 					getLocalAdress(),getLocalPort(),
 					it->second.GetRemoteAddr(), it->second.GetRemotePort() );
-				    if ( !m_bClose ) OnBFCPDisconnected(s);
 				    disconnect = true;
+				    break;
 				}
 				
 			    }
@@ -1182,15 +1182,15 @@ void BFCPConnection::RunLoop()
                                 getLocalAdress(),getLocalPort(),
                                 it->second.GetRemoteAddr(), it->second.GetRemotePort() );
 
-			if ( !m_bClose ) OnBFCPDisconnected(s);
-			
 			disconnect = true;
 			break;
 		    }
 		}
-		
-		if (disconnect)
-		{
+	    }
+	    
+	    
+	    if (disconnect)
+	    {
 		    /* remove disconnected socket from set and client list */
 		    m_ClientSocket.erase(s); // Remove from list
 		    FD_CLR(s,&allSet);	  // and from set
@@ -1203,9 +1203,13 @@ void BFCPConnection::RunLoop()
 		    {
 			if (it->first > listenSocket) listenSocket = it->first;
 		    }
-		}
-		bfcp_mutex_unlock(m_mutConnect);
-	    }
+		    bfcp_mutex_unlock(m_mutConnect);
+		    if ( !m_bClose ) OnBFCPDisconnected(s);
+	     }
+	     else
+	     {
+		    bfcp_mutex_unlock(m_mutConnect);
+	     }
 	} /* while */
     } 
     catch(...) 
