@@ -1186,11 +1186,9 @@ void BFCPConnection::RunLoop()
 			break;
 		    }
 		}
-	    }
-	    
-	    
-	    if (disconnect)
-	    {
+		
+		if (disconnect)
+		{
 		    /* remove disconnected socket from set and client list */
 		    m_ClientSocket.erase(s); // Remove from list
 		    FD_CLR(s,&allSet);	  // and from set
@@ -1205,11 +1203,12 @@ void BFCPConnection::RunLoop()
 		    }
 		    bfcp_mutex_unlock(m_mutConnect);
 		    if ( !m_bClose ) OnBFCPDisconnected(s);
-	     }
-	     else
-	     {
+		}
+		else
+		{
 		    bfcp_mutex_unlock(m_mutConnect);
-	     }
+		}
+	    }
 	} /* while */
     } 
     catch(...) 
