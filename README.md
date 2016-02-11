@@ -12,27 +12,27 @@ The instructions below were tested on CentOS 6 64 bits.
 
 1- Install prerequistes
 
-  # yum install gcc-c++, make, rpm-build
+    # yum install gcc-c++, make, rpm-build
 
 
 2- Produce the RPM package
 
 Do not compile as root but use a normal linux user
 
-   $ git clone https://github.com/InteractiviteVideoEtSystemes/libbfcp.git
-   $ cd libbfcp
-   $ ./install.ksh rpm nosign
+    $ git clone https://github.com/InteractiviteVideoEtSystemes/libbfcp.git
+    $ cd libbfcp
+    $ ./install.ksh rpm nosign
 
 3- Install the RPM package
 
-   $ su
-   Password: xxxxx
-   # rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
+    $ su
+    Password: xxxxx
+    # rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
 
 Libraries are compiled in both debug and release mode. They are located in
 
-/opt/ives/lib64
+    /opt/ives/lib64
 
 Header files are located in 
 
-/opt/ives/include
+    /opt/ives/include
