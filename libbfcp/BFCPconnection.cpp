@@ -110,6 +110,8 @@ BFCPConnection::BFCPConnection() : m_remoteClient(BFCP_OVER_TCP)
     m_bClose = false;
     m_eRole = BFCPConnectionRole::ACTIVE;
     m_bConnected = false;
+    m_isStarted = false ;
+
 #ifdef WIN32
 
     WSADATA wsaData;
