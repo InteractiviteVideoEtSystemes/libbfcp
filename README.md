@@ -2,8 +2,8 @@
 Lib BFCP (fork from libbfcp)
 
 An open source BFCP (Binary Floor Control Protocol, RFC4582) library written in C
-and C++. Repackaged and modified for IVeS solutions. Fork from the libbfcp written
-by Lorenzo Miniero (see Confiance open source project)
+and C++. Fork from the libbfcp written by Lorenzo Miniero (see Confiance open source project).
+Repackaged and modified for IVeS solutions. We mostly added support for BFCP over UDP.
 
 
 ## Build instructions
@@ -25,9 +25,9 @@ Do not compile as root but use a normal linux user
 
 3- Install the RPM package
 
-  $ su
-  Password: xxxxx
-  # rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
+   $ su
+   Password: xxxxx
+   # rpm -ivh libbfcp-x.y.z-t.ives.el6.x86_64.rpm
 
 Libraries are compiled in both debug and release mode. They are located in
 
