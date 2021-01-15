@@ -1092,9 +1092,9 @@ int BFCP_LinkList::bfcp_accepted_pending_node_with_floorID(UINT32 conferenceID, 
 		return -1;
 
 	pnode traverse, traverse_temp;
-	floor_request_query *floorrequest;
 	int delete_node = 0, error = 0;
-	UINT16 userID;
+	/* UINT16 userID; 
+	floor_request_query *floorrequest; */
 	bfcp_node *newnode = NULL;
 	pfloor floor;
 
@@ -1134,13 +1134,14 @@ int BFCP_LinkList::bfcp_accepted_pending_node_with_floorID(UINT32 conferenceID, 
 					return (-1);
 
 				/* Add the floor request information to the floor nodes */
+/*
 				if(newnode->beneficiaryID != 0)
 					userID = newnode->beneficiaryID;
 				else
 					userID = newnode->userID;
 
 				floorrequest = newnode->floorrequest;
-
+*/
 				delete_node = 1;
 				traverse = traverse_temp;
 			} else
