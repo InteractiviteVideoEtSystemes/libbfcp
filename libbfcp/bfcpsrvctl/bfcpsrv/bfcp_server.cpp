@@ -34,11 +34,10 @@
 
 /* Macro to check for errors after sending a BFCP message */
 
-#define BFCP_SEND_CHECK_ERRORS()			\
-    if(arguments != NULL)					\
-    bfcp_free_arguments(arguments); 		\
-    if(message != NULL)					    \
-    bfcp_free_message(message);
+#define BFCP_SEND_CHECK_ERRORS(msg, args, err) \
+    if (args != NULL) bfcp_free_arguments(args); 		\
+    if (msg != NULL) bfcp_free_message(msg); \
+    if (err)  Log(INF,"BFCP_Server: network error %d.", err);
 
 extern "C" void _ServerLog(char* pcFile, int iLine, int iErrorLevel, char* pcFormat, ...)
 {
@@ -1968,6 +1967,7 @@ int BFCP_Server::bfcp_show_floor_information(UINT32 conferenceID, UINT16 Transac
     if(conference == NULL)
         return 0;
 
+    /* int error, i, transport; */
     int error, i, transport;
     pnode traverse;
     pfloor floor;
@@ -2088,7 +2088,8 @@ int BFCP_Server::bfcp_show_floor_information(UINT32 conferenceID, UINT16 Transac
         return -1;
     }
     error = sendBFCPmessage(sockfd, message);
-    BFCP_SEND_CHECK_ERRORS();
+    
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
     if ( freeNode ) {
         if ( tmpnode ) {
             remove_request_list_of_node(tmpnode->floorrequest);
@@ -2255,7 +2256,7 @@ int BFCP_Server::bfcp_show_requestfloor_information(bfcp_list_users *list_users,
         return -1;
     }
     error = sendBFCPmessage(sockfd ,message, donotresend);
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
     return 0;
 }
@@ -3196,7 +3197,7 @@ int BFCP_Server::bfcp_ChairAction_server(st_bfcp_server *server, UINT32 conferen
     }
     bfcp_mutex_unlock(count_mutex);
     error = sendBFCPmessage(sockfd,message);
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
     return 0;
 }
@@ -3313,7 +3314,7 @@ int BFCP_Server::bfcp_hello_server(st_bfcp_server *server, UINT32 conferenceID, 
     Log(INF,"BFCPServer: sending HelloAck sock fd %d", sockfd);
     error = sendBFCPmessage(sockfd, message);
     
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
     if ( error < 0 ) Log(INF,"BFCPServer: failed to send HelloAck. err %d on sockfd %d", error, sockfd);
     return 0;
 }
@@ -3454,8 +3455,7 @@ int BFCP_Server::bfcp_userquery_server(st_bfcp_server *server, UINT32 conference
 
     bfcp_mutex_unlock(count_mutex);
     error = sendBFCPmessage(sockfd,message);
-
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
     return 0;
 }
@@ -3760,7 +3760,7 @@ int BFCP_Server::bfcp_floorrequestquery_server(st_bfcp_server *server, UINT32 co
 
     bfcp_mutex_unlock(count_mutex);
     error = sendBFCPmessage(sockfd,message);
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
     return 0;
 }
 
@@ -3881,7 +3881,7 @@ int BFCP_Server::bfcp_error_code(UINT32 conferenceID, UINT16 userID, UINT16 Tran
         return -1;
     }
     error = sendBFCPmessage(sockfd, message);
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
     return 0;
 }
 
@@ -4738,7 +4738,7 @@ bool BFCP_Server::SendHello(UINT32 p_userID, const char * remoteAddr, UINT16 rem
     Log(INF,"BFCPServer: sending Hello to socket [%d]", s);
     error = sendBFCPmessage(s, message);
     
-    BFCP_SEND_CHECK_ERRORS();
+    BFCP_SEND_CHECK_ERRORS(message, arguments, error);
     if ( error < 0 )
        Log(INF,"BFCPServer: failed to send Hello. err %d on sockfd [%d]", error, s);
     return error >= 0;
@@ -4758,7 +4758,7 @@ bool BFCP_Server::FloorRequestRespons(UINT32 p_userID,  UINT32 p_beneficiaryID ,
         pfloor next, next_floors, tempnode, free_floors, tempfloors = NULL;
         bfcp_node *newnode = NULL;
         //bfcp_floor *node = NULL;
-        bfcp_queue *laccepted;
+        /* bfcp_queue *laccepted; */
 	int transport = 0;
 	BFCP_SOCKET sockfd;
 
@@ -5023,7 +5023,7 @@ bool BFCP_Server::FloorRequestRespons(UINT32 p_userID,  UINT32 p_beneficiaryID ,
                         }
 
 
-                        laccepted = m_struct_server->list_conferences[i].accepted;
+                        /* laccepted = m_struct_server->list_conferences[i].accepted; */
                         /* if you want pass accepted -> granted */
                         /* if(give_free_floors_to_the_accepted_nodes(m_struct_server->list_conferences+i, laccepted, m_struct_server->list_conferences[i].floor, NULL) == -1) {
                             Log(ERR, "give_free_floors_to_the_accepted_nodes Conference %d failed ",m_confID);
@@ -5057,7 +5057,7 @@ bool BFCP_Server::SendGoodBye(UINT32 p_userID)
 	int transport;
 	bfcp_message * m;
 	UINT16 transID = 0;
-	bool Status = true;
+	/* bool Status = true; */
 	
 	/* Check if this conference exists and if user is in the conf */
 	int i = CheckConferenceAndUser(m_struct_server, m_confID, p_userID, -1);
@@ -5084,7 +5084,7 @@ bool BFCP_Server::SendGoodBye(UINT32 p_userID)
 	sockfd = bfcp_get_user_socket(m_struct_server->list_conferences[i].user, p_userID, &transport );
 	if ( sockfd == INVALID_SOCKET )
 	{
-	    Status = false;	
+	    /* Status = false; */	
 	    Log(INF, "Cannot send GoodBye: socket of user ID %u is alread closed.", p_userID);
 	    return false;
 	}

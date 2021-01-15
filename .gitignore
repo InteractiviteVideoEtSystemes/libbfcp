@@ -1,2 +1,5 @@
 *.o
 Makeinclude
+*.rpm
+bin/
+lib64/

@@ -380,7 +380,7 @@ void sampleClient::menu(char *lineptr) {
     char* text1 = NULL;
     UINT32 conferenceID = 0;
     UINT16 userID = 0, floorID = 0, beneficiaryID = 0;
-    int  error = 0, status = 0, port_server = 0, priority = 0;
+    int  error = 0, port_server = 0, priority = 0;
     UINT16 floorRequestID = 0;
 
     printf("%s%s%s%s%s%s%s%s%s%s",
@@ -476,7 +476,7 @@ void sampleClient::menu(char *lineptr) {
             }
             break;
         case 'q':
-            status = 0;
+            /* status = 0; */
             return;
             break;
         case '\n':

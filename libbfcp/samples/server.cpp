@@ -321,7 +321,8 @@ e_floorctrlMode sampleServer::GetFloorctrlMode(void) {
 void sampleServer::menu(char *lineptr)
 {
     char line[80];
-    int  error = 0, port = 0,  status = 0 ;
+    int  error = 0, port = 0;
+    /* int status = 0 ; */
     UINT32 conferenceID = 0;
     UINT16 userID = 0, floorID = 0 ;
     if ( lineptr )
@@ -443,7 +444,7 @@ void sampleServer::menu(char *lineptr)
                 m_BFCP_Server->RemoveUserInConf( userID );
             break;
         case 'q':
-            status = 0;
+            /* status = 0; */
             return;
             break;
         case '\n':
