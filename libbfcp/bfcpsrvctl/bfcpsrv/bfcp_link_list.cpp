@@ -388,9 +388,9 @@ int BFCP_LinkList::bfcp_delete_node_with_floorID(UINT32 conferenceID, bfcp_queue
     pfloor floor, temp, next;
     floor_request_query *temp_request;
     floor_request_query *next_request;
-    floor_request_query *floorrequest;
+    //floor_request_query *floorrequest;
     int delete_node = 0, i = 0;
-    UINT16 userID;
+    /* UINT16 userID; */
 
     traverse = conference->head;
 
@@ -401,15 +401,16 @@ int BFCP_LinkList::bfcp_delete_node_with_floorID(UINT32 conferenceID, bfcp_queue
             if(floor->floorID == floorID) {
                 /* The head pointer points to the node we want to delete */
                 traverse_temp = traverse;
-
+/*
                 if(traverse_temp->beneficiaryID !=0)
                     userID = traverse_temp->beneficiaryID;
                 else
                     userID= traverse_temp->userID;
 
                 floorrequest = traverse_temp->floorrequest;
+*/
 
-                if(traverse_temp == conference->head) {
+                if (traverse_temp == conference->head) {
                     conference->head = traverse_temp->next;
                     traverse = conference->head;
                     if(traverse != NULL) {
