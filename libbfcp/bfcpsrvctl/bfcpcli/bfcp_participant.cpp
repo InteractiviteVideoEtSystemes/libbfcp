@@ -11,11 +11,11 @@
 #include "bfcp_threads.h"
     
 /* Macro to check for errors after sending a BFCP message */
-#define BFCP_SEND_CHECK_ERRORS()			\
-    if(arguments != NULL)					\
-    bfcp_free_arguments(arguments); 		\
-    if(message != NULL)					    \
-    bfcp_free_message(message);
+#define BFCP_SEND_CHECK_ERRORS(msg,args,err)			\
+    if (args != NULL) bfcp_free_arguments(args);\
+    if (msg != NULL) bfcp_free_message(msg); \
+    if (err) Log(INF,"BFCP_Participant: error sending BFCP msg %d", err)
+
     
 extern "C" void _ParticpantLog(char* pcFile, int iLine, int iErrorLevel, char* pcFormat, ...)
 {
@@ -110,7 +110,6 @@ bool BFCP_Participant::OpenTcpConnection(const char* local_address,
             local_port?local_port:0 ,
             remote_address?remote_address:"",
             remote_port?remote_port:0 );
-
         SelLocalConnection(local_address,local_port,isServer?BFCPConnectionRole::PASSIVE:BFCPConnectionRole::ACTIVE);
         if ( !isServer ){
             if (remote_address!=NULL && remote_port!=0)
@@ -229,7 +228,6 @@ int BFCP_Participant::bfcp_hello_participant(st_bfcp_participant_information* pa
 	if(participant == NULL)
 		participant = m_bfcp_participant_information ;
 
-	int error;
 	bfcp_arguments *arguments;
 	bfcp_message *message;
 
@@ -249,8 +247,8 @@ int BFCP_Participant::bfcp_hello_participant(st_bfcp_participant_information* pa
 
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
-	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	int error = sendBFCPmessage(m_PartSocket,message);
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 	
 	return 0;
 }
@@ -372,7 +370,7 @@ int BFCP_Participant::bfcp_floorRequest_participant(st_bfcp_participant_informat
 
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 	return 0;
 }
@@ -417,7 +415,7 @@ int BFCP_Participant::bfcp_floorRelease_participant(st_bfcp_participant_informat
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 
 	return 0;
@@ -454,7 +452,7 @@ int BFCP_Participant::bfcp_floorRequestQuery_participant(st_bfcp_participant_inf
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 
 	return 0;
@@ -489,7 +487,7 @@ int BFCP_Participant::bfcp_userQuery_participant(st_bfcp_participant_information
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 
 	return 0;
@@ -545,7 +543,7 @@ int BFCP_Participant::bfcp_floorQuery_participant(st_bfcp_participant_informatio
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 
 
@@ -621,7 +619,7 @@ int BFCP_Participant::bfcp_chairAction_participant(st_bfcp_participant_informati
 	bfcp_mutex_unlock(count_mutex);
 	/* Send the message to the FCS */
 	error = sendBFCPmessage(m_PartSocket,message);
-	BFCP_SEND_CHECK_ERRORS();
+	BFCP_SEND_CHECK_ERRORS(message, arguments, error);
 
 
 	return 0;
