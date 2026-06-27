@@ -427,7 +427,7 @@ void sampleClient::menu(char *lineptr) {
             SetFloorID(floorID);
 #ifndef WIN32
             printf("Enter the IP address of the Floor Control Server: \n");
-            scanf (" %a[^\n]", &text1);
+            scanf (" %m[^\n]", &text1);
 #else
             /* FIXME fix broken scanf in WIN32 */
             text1 = calloc(20, sizeof(char));

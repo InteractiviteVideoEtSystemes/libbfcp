@@ -934,11 +934,11 @@ void BFCPConnection::Client2ServerInfo::SetRemoteAddress(sockaddr * addr, size_t
     switch(m_remoteAddress.ss_family)
     {
 	case AF_INET:
-	    sprintf(m_remoteAddressAndPort, "%s:%d", m_remoteAddressStr, m_remotePort);
+	    snprintf(m_remoteAddressAndPort, sizeof(m_remoteAddressAndPort), "%s:%d", m_remoteAddressStr, m_remotePort);
 	    break;
 	
 	case AF_INET6:
-	    sprintf(m_remoteAddressAndPort, "[%s]:%d", m_remoteAddressStr, m_remotePort);
+	    snprintf(m_remoteAddressAndPort, sizeof(m_remoteAddressAndPort), "[%s]:%d", m_remoteAddressStr, m_remotePort);
 	    break;
 	
 	default:
@@ -1297,7 +1297,7 @@ BFCP_SOCKET BFCPConnection::Client2ServerInfo::CreateSocket()
 			    char err[200];
 			    			    
 			    CloseSocket(fd);
-			    sprintf(msg, "failed to bind() socket [%d] to %s : %d - error: %s", fd, GetLocalAddr(),
+			    snprintf(msg, sizeof(msg), "failed to bind() socket [%d] to %s : %d - error: %s", fd, GetLocalAddr(),
 				    GetLocalPort(), strerror_r(errno, err, sizeof(err)) );
 			    throw BFCPException("Client2ServerInfo",__LINE__, "Transport protocol", msg);
 			}

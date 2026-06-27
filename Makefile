@@ -28,13 +28,13 @@ else
 endif
 
 ifeq ($(DEBUG),yes)
-       MAIN_CC_OPTS = -D__DEBUG__ -Wall -g -Werror -Wunused -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations  -fPIC
-       MAIN_CPP_OPTS = -D__DEBUG__ -Wall -g -Werror -Wunused  -fPIC
+       MAIN_CC_OPTS = -D__DEBUG__ -Wall -g -Werror -Wunused -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wno-format-truncation  -fPIC
+       MAIN_CPP_OPTS = -D__DEBUG__ -Wall -g -Werror -Wunused -Wno-format-truncation  -fPIC
        MAIN_LIBS = -g -lpthread
        BINS_PRE=dbg
 else
-       MAIN_CC_OPTS = -Wall -O2 -Werror -Wunused -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations  -fPIC
-       MAIN_CPP_OPTS = -Wall -O2 -Werror -Wunused  -fPIC
+       MAIN_CC_OPTS = -Wall -O2 -Werror -Wunused -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wno-format-truncation  -fPIC
+       MAIN_CPP_OPTS = -Wall -O2 -Werror -Wunused -Wno-format-truncation  -fPIC
        MAIN_LIBS = -lpthread
        BINS_PRE=rel
 endif

@@ -48,9 +48,9 @@ function create_rpm
     if [ $? == 0 ]
     then
         echo "************************* fin du rpmbuild ****************************"
-        #Recuperation du rpm
-        mv -f $PWD/rpmbuild/RPMS/i386/*.rpm $PWD/.
-        mv -f $PWD/rpmbuild/RPMS/x86_64/*.rpm $PWD/.
+        #Recuperation du rpm (i386 absent sur almalinux 9 / rhel 9)
+        mv -f $PWD/rpmbuild/RPMS/i386/*.rpm $PWD/. 2>/dev/null
+        mv -f $PWD/rpmbuild/RPMS/x86_64/*.rpm $PWD/. 2>/dev/null
     fi
     clean
 }

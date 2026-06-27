@@ -177,8 +177,10 @@ int BFCP_Participant::bfcp_insert_floor_participant(st_bfcp_participant_informat
 		participant = m_bfcp_participant_information ;
 
     bfcp_floors_participant* tmp_floor = insert_floor_list(participant->pfloors,floorID, NULL);
-    if ( tmp_floor ) 
+    if ( tmp_floor )
+    {
         participant->pfloors = tmp_floor ;
+    }
 
 	return 0;
 }
@@ -1107,8 +1109,8 @@ bool BFCP_Participant::OnBFCPConnected(BFCP_SOCKET socket, const char* remoteIp 
     m_PartSocket = socket ;
     s_bfcp_msg_event evt ;
     memset ( &evt , 0 , sizeof(s_bfcp_msg_event));
-    if ( remoteIp ) 
-        strncpy(evt.c_param , remoteIp , BFCP_STRING_SIZE );
+    if ( remoteIp )
+        strncpy(evt.c_param , remoteIp , BFCP_STRING_SIZE - 1 );
     if ( remotePort )
         evt.i_parm = remotePort ;
     return FsmCtrlPerform( BFCP_fsm::BFCP_ACT_CONNECTED , &evt ) ;

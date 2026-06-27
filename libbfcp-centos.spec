@@ -1,5 +1,5 @@
 Name:      libbfcp
-Version:   5.5.4
+Version:   5.6.0
 Release:   1.ives%{?dist}
 Summary:   libbfcp.
 Vendor:    IVeS

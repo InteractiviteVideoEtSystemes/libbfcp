@@ -7,7 +7,8 @@ BFCP_fsm::~BFCP_fsm(void)
 
 void BFCP_fsm::setName(const char* p_name ){
     if ( p_name ) {
-        strncpy( m_name , p_name , BFCP_STRING_SIZE ) ; 
+        strncpy( m_name , p_name , BFCP_STRING_SIZE - 1 ) ;
+        m_name[ BFCP_STRING_SIZE - 1 ] = '\0' ;
     }
     else
         memset ( m_name , 0 , BFCP_STRING_SIZE );

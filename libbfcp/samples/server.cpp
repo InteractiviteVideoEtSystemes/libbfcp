@@ -326,7 +326,10 @@ void sampleServer::menu(char *lineptr)
     UINT32 conferenceID = 0;
     UINT16 userID = 0, floorID = 0 ;
     if ( lineptr )
-        strncpy( line , lineptr , 80 );
+    {
+        strncpy( line , lineptr , sizeof(line) - 1 );
+        line[ sizeof(line) - 1 ] = '\0' ;
+    }
 
     char yesno;
     
