@@ -75,7 +75,7 @@ prep:
 	echo "CC_OPTS=$(MAIN_CC_OPTS)" >>Makeinclude
 	echo "CPP_OPTS=$(MAIN_CPP_OPTS)" >>Makeinclude
 	echo "LIBS=$(MAIN_LIBS)" >>Makeinclude
-	echo "INCS_DIR=-I $(PWD)/libbfcp" >>Makeinclude
+	echo "INCS_DIR=-I $(CURDIR)/libbfcp" >>Makeinclude
 	echo "SAMPLES_INCS_DIR= -I $(DELIVERY_INCLUDES)" >>Makeinclude
 	echo "SAMPLES_LIBS=$(DELIVERY_LIBS)/$(MAIN_LIBNAME).a" >>Makeinclude
 	echo "DELIVERY_LIBS=$(DELIVERY_LIBS)" >>Makeinclude
