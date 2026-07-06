@@ -1,5 +1,30 @@
+# Fichiers objets et bibliothèques compilées
 *.o
+*.lo
+*.a
+*.so
+*.so.*
+
+# Configuration générée par le Makefile
 Makeinclude
+
+# Paquets
 *.rpm
+
+# Répertoires de livraison générés par le build (cf. Makefile : DELIVERY_*)
 bin/
+lib/
 lib64/
+include/
+dbg/
+rel/
+doc/libbfcp/
+
+# Binaires d'exemples
+libbfcp/samples/bfcpParticipant
+libbfcp/samples/bfcpServer
+
+# Index cscope générés (cscope.build est suivi, pas ceux-ci)
+cscope.out
+cscope.in.out
+cscope.po.out
